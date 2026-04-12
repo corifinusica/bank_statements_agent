@@ -1,0 +1,13 @@
+entry_id,entry_type,date,status,confidence,reason
+FX_2025-01-09_01,conversion,2025-01-09,draft,0.99,Auto: FX conversion GBP->EUR (LB tp=LT)
+TX_050a497b_0000,single,2025-01-09,draft,0.7,Based on: Bank service fee EUR
+TX_050a497b_0001,single,2025-01-09,draft,0.7,Based on: Bank service fee EUR
+TX_050a497b_0002,single,2025-01-09,draft,0.7,Based on: Penalties
+TX_050a497b_0003,single,2025-01-09,draft,0.7,Based on: Social insurance
+TX_050a497b_0017,single,2025-01-16,draft,0.7,Based on: Interest fee GBP
+FX_2025-01-30_02,conversion,2025-01-30,draft,0.99,Auto: FX conversion GBP->EUR (LB tp=LT)
+FX_2025-01-30_03,conversion,2025-01-30,draft,0.99,Auto: FX conversion GBP->EUR (LB tp=LT)
+TX_050a497b_0004,single,2025-01-30,draft,0.7,Based on: Bank service fee EUR
+TX_050a497b_0005,single,2025-01-30,draft,0.7,Based on: Penalties
+TX_050a497b_0006,single,2025-01-30,draft,0.7,Based on: Social insurance Sodra EUR
+TX_050a497b_0016,single,2025-01-31,draft,0.7,Based on: Customer payment Fortevento

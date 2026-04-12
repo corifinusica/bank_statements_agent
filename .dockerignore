@@ -1,0 +1,8 @@
+# .dockerignore
+__pycache__/
+*.pyc
+.idea/
+.streamlit/secrets.toml
+app.db
+venv/
+.env
