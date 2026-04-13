@@ -791,10 +791,11 @@ with right:
         if msg.strip().startswith("/"):
             ans = handle_chat_command(msg, selected_entry)
         else:
-            ans = ask_llm(msg, selected_entry)
-            # Fallback (optional):
-            # ans = agent_reply(msg)
+            client = get_openai_client()
+            ans = ask_llm(msg, selected_entry) if client is not None else agent_reply(msg)
 
+        st.session_state.chat.append(("assistant", ans))
+        st.rerun()
         st.session_state.chat.append(("assistant", ans))
         st.rerun()
 
