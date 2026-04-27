@@ -1,13 +1,55 @@
 entry_id,entry_type,date,status,confidence,reason
-FX_2025-01-09_01,conversion,2025-01-09,draft,0.99,Auto: FX conversion GBP->EUR (LB tp=LT)
-TX_050a497b_0000,single,2025-01-09,draft,0.7,Based on: Bank service fee EUR
-TX_050a497b_0001,single,2025-01-09,draft,0.7,Based on: Bank service fee EUR
-TX_050a497b_0002,single,2025-01-09,draft,0.7,Based on: Penalties
-TX_050a497b_0003,single,2025-01-09,draft,0.7,Based on: Social insurance
-TX_050a497b_0017,single,2025-01-16,draft,0.7,Based on: Interest fee GBP
-FX_2025-01-30_02,conversion,2025-01-30,draft,0.99,Auto: FX conversion GBP->EUR (LB tp=LT)
-FX_2025-01-30_03,conversion,2025-01-30,draft,0.99,Auto: FX conversion GBP->EUR (LB tp=LT)
-TX_050a497b_0004,single,2025-01-30,draft,0.7,Based on: Bank service fee EUR
-TX_050a497b_0005,single,2025-01-30,draft,0.7,Based on: Penalties
-TX_050a497b_0006,single,2025-01-30,draft,0.7,Based on: Social insurance Sodra EUR
-TX_050a497b_0016,single,2025-01-31,draft,0.7,Based on: Customer payment Fortevento
+TX_6b0a53b0_0000,single,2025-04-22,draft,0.7,Based on: Customer payment
+TX_6b0a53b0_0001,single,2025-01-08,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0002,single,2025-01-09,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0003,single,2025-01-09,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0004,single,2025-01-09,draft,0.7,Based on: Penalties
+TX_6b0a53b0_0005,conversion,2025-01-09,draft,0.7,Based on: Currency conversion
+TX_6b0a53b0_0006,single,2025-01-30,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0007,single,2025-01-30,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0008,single,2025-01-30,draft,0.7,Based on: Penalties
+TX_6b0a53b0_0009,conversion,2025-01-30,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0010,conversion,2025-01-30,draft,0.7,Based on: Currency conversion
+TX_6b0a53b0_0011,single,2025-01-31,draft,0.7,Based on: Customer payment
+TX_6b0a53b0_0012,single,2025-02-08,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0013,single,2025-02-20,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0014,single,2025-02-20,draft,0.7,Based on: Outgoing payment
+TX_6b0a53b0_0015,single,2025-02-27,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0016,single,2025-02-27,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0017,single,2025-02-27,draft,0.7,Based on: Penalties
+TX_6b0a53b0_0018,single,2025-03-05,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0019,single,2025-03-05,draft,0.7,Based on: Outgoing payment
+TX_6b0a53b0_0020,single,2025-03-08,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0021,single,2025-03-31,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0022,single,2025-03-31,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0023,single,2025-03-31,draft,0.7,Based on: Penalties
+TX_6b0a53b0_0024,single,2025-04-08,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0025,single,2025-04-10,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0026,single,2025-04-10,draft,0.7,Based on: Outgoing payment
+TX_6b0a53b0_0027,conversion,2025-04-10,draft,0.7,Based on: Currency conversion
+TX_6b0a53b0_0028,single,2025-04-22,draft,0.7,Based on: Outgoing payment
+TX_6b0a53b0_0029,single,2025-04-30,draft,0.7,Based on: Customer payment
+TX_6b0a53b0_0030,single,2025-05-02,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0031,single,2025-05-02,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0032,single,2025-05-02,draft,0.7,Based on: Penalties
+TX_6b0a53b0_0033,single,2025-05-05,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0034,single,2025-05-05,draft,0.7,Based on: Outgoing payment
+TX_6b0a53b0_0035,single,2025-05-08,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0036,single,2025-05-29,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0037,single,2025-05-29,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0038,single,2025-05-29,draft,0.7,Based on: Penalties
+TX_6b0a53b0_0039,single,2025-06-08,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0040,single,2025-06-19,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0041,single,2025-06-19,draft,0.7,Based on: Outgoing payment
+TX_6b0a53b0_0042,single,2025-06-30,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0043,single,2025-06-30,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0044,single,2025-06-30,draft,0.7,Based on: Penalties
+TX_6b0a53b0_0045,single,2025-07-08,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0046,single,2025-07-28,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0047,single,2025-07-28,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0048,single,2025-07-28,draft,0.7,Based on: Penalties
+TX_6b0a53b0_0049,conversion,2025-01-09,draft,0.7,Based on: Currency conversion
+TX_6b0a53b0_0050,single,2025-01-16,draft,0.7,Based on: Outgoing payment
+TX_6b0a53b0_0051,conversion,2025-01-30,draft,0.7,Based on: Bank service fee EUR
+TX_6b0a53b0_0052,conversion,2025-01-30,draft,0.7,Based on: Currency conversion
+TX_6b0a53b0_0053,conversion,2025-04-10,draft,0.7,Based on: Currency conversion

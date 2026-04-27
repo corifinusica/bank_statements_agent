@@ -178,6 +178,27 @@ def load_journal_lines(entry_id: str) -> pd.DataFrame:
         conn.close()
 
 
+def journal_lines_with_counterparty_display(jl: pd.DataFrame, entry_id: str) -> pd.DataFrame:
+    """Add counterparty_name from the linked bank transaction (SEB Excel col. E) for every line."""
+    base_cols = ["line_id", "line_no", "dc", "account", "amount_eur", "memo"]
+    if jl.empty:
+        return pd.DataFrame(columns=base_cols + ["counterparty_name"])
+    out = jl[base_cols].copy()
+    out["counterparty_name"] = ""
+    if not entry_id.startswith("TX_"):
+        return out
+    tx_id = entry_id.replace("TX_", "", 1)
+    conn = get_conn()
+    try:
+        row = conn.execute("SELECT counterparty FROM transactions WHERE tx_id = ?", (tx_id,)).fetchone()
+        name = (row["counterparty"] or "").strip() if row else ""
+    finally:
+        conn.close()
+    if name:
+        out["counterparty_name"] = name
+    return out
+
+
 def entry_balance_info(jl_df: pd.DataFrame):
     if jl_df.empty:
         return 0.0, 0.0, 0.0
@@ -686,28 +707,73 @@ def handle_chat_command(cmd: str, entry_id: str):
 
 # -------------------- UI --------------------
 
+st.set_page_config(
+    layout="wide",
+    initial_sidebar_state="collapsed",
+    page_title="Accounting Agent — Review + Chat",
+)
+st.markdown(
+    """
+    <style>
+    /* Full-width layout: use viewport instead of Streamlit’s narrow centered block */
+    .stApp .main .block-container {
+        max-width: 100%;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .stApp [data-testid="stMainBlockContainer"] {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+    /* Let column content shrink/grow without clipping wide tables */
+    div[data-testid="column"] {
+        min-width: 0;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 st.title("Accounting Agent — Review + Chat")
 
-with st.sidebar:
-    status_filter = st.selectbox("Filter entries", ["all", "draft", "approved", "rejected"], index=0)
-
-entries_df = load_entries(status_filter)
-if entries_df.empty:
-    st.warning("No entries in DB. Run: python import_to_sqlite.py --reset")
-    st.stop()
-
-left, mid, right = st.columns([1.25, 2.0, 1.0])
+# Left: entries list | Center: review + similar (wider) | Right: chat + audit flush right
+left, mid, right = st.columns([1.05, 2.65, 1.0])
 
 with left:
     st.subheader("Entries")
+    status_filter = st.selectbox("Filter entries", ["all", "draft", "approved", "rejected"], index=0)
+    entries_df = load_entries(status_filter)
+    if entries_df.empty:
+        st.warning("No entries in DB. Run: python import_to_sqlite.py --reset")
+        st.stop()
+
     show_cols = ["entry_id", "date", "entry_type", "status", "confidence"]
     for c in show_cols:
         if c not in entries_df.columns:
             entries_df[c] = None
 
-    st.dataframe(entries_df[show_cols], width="stretch", height=520)
-    selected_entry = st.selectbox("Select entry_id", entries_df["entry_id"].tolist())
+    if "selected_entry" not in st.session_state or st.session_state["selected_entry"] not in entries_df["entry_id"].tolist():
+        st.session_state["selected_entry"] = entries_df["entry_id"].iloc[0]
+
+    event = st.dataframe(
+        entries_df[show_cols],
+        width="stretch",
+        height=520,
+        on_select="rerun",
+        selection_mode="single-row",
+        key="entries_table",
+    )
+
+    selected_rows = event.selection.rows if event and event.selection else []
+    if selected_rows:
+        prev_selected = st.session_state["selected_entry"]
+        row_idx = int(selected_rows[0])
+        st.session_state["selected_entry"] = entries_df.iloc[row_idx]["entry_id"]
+        if st.session_state["selected_entry"] != prev_selected:
+            st.rerun()
+
+    selected_entry = st.session_state["selected_entry"]
+    st.caption(f"Selected: {selected_entry}")
 
 with mid:
     st.subheader("Entry review")
@@ -722,24 +788,36 @@ with mid:
         st.markdown(f"**Balance:** Debit={debit} | Credit={credit} | Diff={diff}")
 
         original = jl[["line_id", "line_no", "dc", "account", "amount_eur", "memo"]].copy()
+        display_df = journal_lines_with_counterparty_display(jl, selected_entry)
+        display_df = display_df[
+            ["line_id", "line_no", "dc", "account", "counterparty_name", "amount_eur", "memo"]
+        ]
 
         edited = st.data_editor(
-            original,
+            display_df,
             width="stretch",
             num_rows="fixed",
             column_config={
                 "dc": st.column_config.SelectboxColumn(options=["D", "C"]),
                 "account": st.column_config.TextColumn(),
+                "counterparty_name": st.column_config.TextColumn(
+                    "Counterparty",
+                    help="From bank statement (same for all lines of this transaction)",
+                    width="medium",
+                ),
                 "amount_eur": st.column_config.NumberColumn(format="%.2f"),
                 "memo": st.column_config.TextColumn(width="large"),
             },
-            disabled=["line_id", "line_no"],
+            disabled=["line_id", "line_no", "counterparty_name"],
         )
 
         c1, c2 = st.columns(2)
         with c1:
             if st.button("Save changes"):
-                updated = save_journal_lines(edited, original)
+                updated = save_journal_lines(
+                    edited[["line_id", "line_no", "dc", "account", "amount_eur", "memo"]],
+                    original,
+                )
                 st.success(f"Saved. Fields updated: {updated}")
                 st.rerun()
 

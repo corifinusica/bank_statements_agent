@@ -6,6 +6,7 @@ from pathlib import Path
 import pandas as pd
 
 from database import init_db, get_conn, reset_db
+from tools.convert_seb_excel import convert_seb_excel
 
 def now():
     return datetime.utcnow().isoformat()
@@ -58,7 +59,25 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--data-dir", default="data", help="Folder with CSV files")
     p.add_argument("--reset", action="store_true", help="Drop & recreate DB tables")
+    p.add_argument("--excel-input", help="Optional path to SEB Excel statement (*.xlsx)")
+    p.add_argument(
+        "--convert-only",
+        action="store_true",
+        help="Only convert Excel to CSV, do not import into app.db",
+    )
     args = p.parse_args()
+
+    if args.excel_input:
+        result = convert_seb_excel(args.excel_input, output_dir=args.data_dir)
+        print(
+            "Converted Excel -> CSV: "
+            f"transactions={result['transactions']}, "
+            f"entries={result['entries']}, "
+            f"journal_lines={result['journal_lines']}"
+        )
+
+    if args.convert_only:
+        raise SystemExit(0)
 
     if args.reset:
         reset_db()
