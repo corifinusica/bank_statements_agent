@@ -180,7 +180,16 @@ def load_journal_lines(entry_id: str) -> pd.DataFrame:
 
 def journal_lines_with_counterparty_display(jl: pd.DataFrame, entry_id: str) -> pd.DataFrame:
     """Add counterparty_name from the linked bank transaction (SEB Excel col. E) for every line."""
-    base_cols = ["line_id", "line_no", "dc", "account", "amount_eur", "memo"]
+    base_cols = [
+        "line_id",
+        "line_no",
+        "dc",
+        "account",
+        "amount_eur",
+        "source_currency",
+        "source_amount",
+        "memo",
+    ]
     if jl.empty:
         return pd.DataFrame(columns=base_cols + ["counterparty_name"])
     out = jl[base_cols].copy()
@@ -790,7 +799,17 @@ with mid:
         original = jl[["line_id", "line_no", "dc", "account", "amount_eur", "memo"]].copy()
         display_df = journal_lines_with_counterparty_display(jl, selected_entry)
         display_df = display_df[
-            ["line_id", "line_no", "dc", "account", "counterparty_name", "amount_eur", "memo"]
+            [
+                "line_id",
+                "line_no",
+                "dc",
+                "account",
+                "counterparty_name",
+                "amount_eur",
+                "source_currency",
+                "source_amount",
+                "memo",
+            ]
         ]
 
         edited = st.data_editor(
@@ -806,9 +825,11 @@ with mid:
                     width="medium",
                 ),
                 "amount_eur": st.column_config.NumberColumn(format="%.2f"),
+                "source_currency": st.column_config.TextColumn("source_currency", width="small"),
+                "source_amount": st.column_config.NumberColumn("source_amount", format="%.2f"),
                 "memo": st.column_config.TextColumn(width="large"),
             },
-            disabled=["line_id", "line_no", "counterparty_name"],
+            disabled=["line_id", "line_no", "counterparty_name", "source_currency", "source_amount"],
         )
 
         c1, c2 = st.columns(2)
